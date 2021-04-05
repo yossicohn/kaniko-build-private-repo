@@ -13,6 +13,6 @@ WORKDIR $HOME_DIR
 ENV GIT_TOKEN=$GIT_TOKEN_ARG
 ENV ROOT_HOME=/root
 RUN mkdir -p -m 600 $ROOT_HOME/.ssh/ && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
+RUN --mount=type=ssh git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 
 CMD ["sleep", "1h"]
