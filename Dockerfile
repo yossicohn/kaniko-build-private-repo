@@ -12,7 +12,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 WORKDIR $HOME_DIR
 ENV GIT_TOKEN=$GIT_TOKEN_ARG
 ENV ROOT_HOME=/root
-COPY .ssh .ssh
+COPY /root/.ssh .ssh
 RUN mkdir -p -m 600 $ROOT_HOME/.ssh/ && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 
