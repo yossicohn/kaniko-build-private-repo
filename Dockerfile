@@ -1,7 +1,7 @@
 ARG HOME_DIR=test-home
 ARG SSH_PRIVATE_KEY
 
-FROM golang:1.16.3
+FROM golang:1.16.3 as go-base
 ARG SSH_PRIVATE_KEY
 
 RUN apt-get update
@@ -11,19 +11,21 @@ RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
-
-
-FROM python:3.8.5-slim-buster as base
-
-FROM base as builder
-ARG HOME_DIR
-
-RUN apt-get -y update && apt-get install -y --no-install-recommends \
-  ssh-client pkg-config openssl ssh \
-  git-core build-essential libffi-dev procps vim
-
-WORKDIR $HOME_DIR
+RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64  go build -o app-go .
 
 
 
-CMD ["sleep", "1h"]
+# final stage
+FROM alpine:latest
+
+WORKDIR /app
+
+ENV PORT=3000
+
+# Expose port 3000 to the outside world
+EXPOSE 3000
+
+COPY --from=go-base /app/app-go /app/
+
+# Command to run the executable
+ENTRYPOINT ["/app/app-go"]
