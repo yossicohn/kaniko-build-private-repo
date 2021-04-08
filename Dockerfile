@@ -11,6 +11,6 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 
 WORKDIR $HOME_DIR
 
-# RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
+RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 
 CMD ["sleep", "1h"]
