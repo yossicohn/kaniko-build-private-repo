@@ -6,6 +6,7 @@ ARG SSH_PRIVATE_KEY
 
 RUN apt-get update
 RUN apt-get install -y git
+RUN mkdir /root/.ssh
 RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
 RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
