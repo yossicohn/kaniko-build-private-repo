@@ -12,6 +12,8 @@ RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
 RUN chmod 0400 /root/.ssh/id_rsa
 RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN eval `ssh-agent -s`
+RUN ssh-add -k /root/.ssh/id_rsa
 
 RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64  go build -o app-go .
