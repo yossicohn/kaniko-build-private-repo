@@ -5,7 +5,7 @@ ARG GIT_TOKEN_ARG
 FROM golang:1.16.3 as go-base
 ARG SSH_PRIVATE_KEY
 ARG GIT_TOKEN_ARG
-
+RUN echo "GIT_TOKEN_ARG = ${GIT_TOKEN_ARG}"
 RUN apt-get update
 RUN apt-get install -y git
 # RUN mkdir /root/.ssh
