@@ -17,7 +17,7 @@ RUN apt-get install -y git
 # RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 # RUN ssh-add -k /root/.ssh/id_rsa
 RUN echo "${GIT_TOKEN_ARG}"
-RUN ENV GIT_TOKEN=$GIT_TOKEN_ARG
+ENV GIT_TOKEN=$GIT_TOKEN_ARG
 # RUN chmod 0400 /root/.ssh/id_rsa
 # RUN touch /root/.ssh/known_hosts
 # RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
