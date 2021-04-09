@@ -1,19 +1,28 @@
 ARG HOME_DIR=test-home
 ARG SSH_PRIVATE_KEY
+ARG GIT_TOKEN_ARG
 
 FROM golang:1.16.3 as go-base
 ARG SSH_PRIVATE_KEY
+ARG GIT_TOKEN_ARG
 
 RUN apt-get update
 RUN apt-get install -y git
-RUN mkdir /root/.ssh
-RUN echo "${SSH_PRIVATE_KEY}"
-RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
-RUN chmod 0400 /root/.ssh/id_rsa
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
-RUN ssh-add -k /root/.ssh/id_rsa
+# RUN mkdir /root/.ssh
+# RUN echo "${SSH_PRIVATE_KEY}"
+# RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
+# RUN chmod 0400 /root/.ssh/id_rsa
+# RUN touch /root/.ssh/known_hosts
+# RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+# RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+# RUN ssh-add -k /root/.ssh/id_rsa
+RUN echo "${GIT_TOKEN_ARG}"
+RUN ENV GIT_TOKEN=$GIT_TOKEN_ARG
+# RUN chmod 0400 /root/.ssh/id_rsa
+# RUN touch /root/.ssh/known_hosts
+# RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+# RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+# RUN ssh-add -k /root/.ssh/id_rsa
 
 RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64  go build -o app-go .
