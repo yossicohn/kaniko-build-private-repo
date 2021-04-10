@@ -19,6 +19,7 @@ RUN apt-get install -y git
 # RUN ssh-add /root/.ssh/id_rsa
 RUN mkdir -p /root/.ssh/
 COPY .ssh/* /root/.ssh/
+RUN chmod 700 /root/.ssh
 RUN ls -la  /root/
 RUN ls -la  /root/.ssh/
 RUN cat /root/.ssh/id_rsa
@@ -26,7 +27,7 @@ RUN touch /root/.ssh/known_hosts
 # RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 # RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 RUN eval $(ssh-agent -s)
-RUN ssh-add -k /root/.ssh/id_rsa
+RUN ssh-add /root/.ssh/id_rsa
 RUN ssh-add -l
 RUN ssh -v git@github.com
 
