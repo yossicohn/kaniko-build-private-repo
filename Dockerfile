@@ -1,4 +1,4 @@
-ARG HOME_DIR=build-home
+ARG BUILD_HOME_DIR="/build-home"
 ARG SSH_PRIVATE_KEY
 
 FROM golang:1.16.3 as go-base
@@ -26,6 +26,8 @@ RUN cat /root/.ssh/id_rsa
 # RUN touch /root/.ssh/known_hosts
 # RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 # RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+WORKDIR BUILD_HOME_DIR
+
 RUN echo "PWD" && pwd
 RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 RUN ls -la 
@@ -45,7 +47,7 @@ ENV PORT=3000
 # Expose port 3000 to the outside world
 EXPOSE 3000
 
-COPY --from=go-base /app/app-go /app/
+COPY --from=go-base "${BUILD_HOME_DIR}/app-go" .
 
 # Command to run the executable
 ENTRYPOINT ["/app/app-go"]
