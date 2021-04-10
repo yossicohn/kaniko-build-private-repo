@@ -33,7 +33,7 @@ RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.co
 RUN ls -la 
 RUN ls -la go-api-skeleton
 RUN cd go-api-skeleton && go mod download
-RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o app-go /root/.
+RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o /root/app-go .
 RUN ls -la
 
 
