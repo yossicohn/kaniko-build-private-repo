@@ -33,7 +33,7 @@ RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.co
 RUN ls -la 
 RUN ls -la go-api-skeleton
 RUN cd go-api-skeleton && go mod download
-RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o app-go ../.
+RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o app-go /root/.
 RUN ls -la
 
 
@@ -49,7 +49,7 @@ ENV PORT=3000
 # Expose port 3000 to the outside world
 EXPOSE 3000
 
-COPY --from=go-base /go/app-go .
+COPY --from=go-base /root/app-go .
 
 # Command to run the executable
 ENTRYPOINT ["/app/app-go"]
