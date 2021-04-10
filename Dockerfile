@@ -28,9 +28,6 @@ RUN cat /root/.ssh/id_rsa
 # RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 
 RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
-RUN ssh-add -l
-RUN ssh -v git@github.com
-# RUN git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64  go build -o app-go .
 
 
