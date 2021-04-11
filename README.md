@@ -1,1 +1,1 @@
-# public-dummy-repo
+# kaniko-build-private-repo
