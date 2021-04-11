@@ -20,7 +20,7 @@ The Dockerfile for such a case would be as follows, while it is cloning the priv
 
 (Dockerfile)[https://github.com/yossicohn/kaniko-build-private-repo/blob/main/Dockerfile]
 Note the usage of the private repo:  RUN git clone git@github.com:<user>/other-private-repo.git - single-branch
-(Dockerfile-no-ssh)[https://github.com/yossicohn/kaniko-build-private-repo/blob/main/Dockerfile-no-ssh]
+[Dockerfile-no-ssh](https://github.com/yossicohn/kaniko-build-private-repo/blob/main/Dockerfile-no-ssh)
 
 ```
 ARG BUILDER_HOME_DIR="/home/builder"
@@ -229,7 +229,8 @@ emptyDir: {}
 - name: ssh-hosts
 emptyDir: {}
 ```
-(Dockerfile)[https://github.com/yossicohn/kaniko-build-private-repo/blob/main/Dockerfile]
+[Dockerfile](https://github.com/yossicohn/kaniko-build-private-repo/blob/main/Dockerfile)
+
 ```
 ARG BUILDER_HOME_DIR="/home/builder"
 
