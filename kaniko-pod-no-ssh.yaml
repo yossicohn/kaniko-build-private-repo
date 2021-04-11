@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko
+spec:
+  initContainers:
+  - name: git-clone
+    image: alpine
+    command: ["sh", "-c"]
+    args: 
+    - |
+      apk add --no-cache git openssh 
+      mkdir ~/.ssh/
+      cp .ssh-src/* ~/.ssh/
+
+      eval `ssh-agent -s`
+      ssh-add ~/.ssh/id_rsa
+      ssh -v git@github.com
+      git clone git@github.com:yossicohn/dummy-repo-kaniko-build.git /workspace
+
+
+    volumeMounts:
+    - name: docker-volume
+      mountPath: /workspace
+    - name: ssh-key-volume
+      mountPath: ".ssh-src/"
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:latest
+    args:
+      - "--context=dir:///workspace"
+      - "--destination=yossicohn/kaniko-demo:1.0.0"
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker/
+      - name: docker-volume
+        mountPath: /workspace
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+    - name: ssh-key-volume
+      secret:
+        secretName: ssh-key-secret
+        defaultMode: 0400
+    - name: docker-volume
+      emptyDir: {}
+
+  
