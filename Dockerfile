@@ -4,25 +4,24 @@ ARG SSH_PRIVATE_KEY
 FROM golang:1.16.3 as go-base
 ARG BUILDER_HOME_DIR
 
+# installing git
 RUN apt-get update
 RUN apt-get install -y git
 
+# copying the ssh keys  to/root/.ssh
 RUN mkdir -p /root/.ssh/
 COPY .ssh/* /root/.ssh/
-# RUN chmod 700 /root/.ssh
-RUN ls -la  /root/
-RUN ls -la  /root/.ssh/
-RUN cat /root/.ssh/id_rsa
 
 WORKDIR $BUILDER_HOME_DIR
 
-# RUN echo "PWD" && pwd
+# 1. restarting the ssh agent
+# 2. adding the private key to the agent
+# 3. cloaning th egit repos in the same shell context
 RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.com:yossicohn/go-api-skeleton.git --single-branch
-# RUN ls -la 
-# RUN ls -la go-api-skeleton
 RUN cd go-api-skeleton && go mod download
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o "${BUILDER_HOME_DIR}/app-go" .
-# RUN ls -la "${BUILDER_HOME_DIR}/app-go"
+
+# delete the .ssh keys
 RUN rm -rf /root/.ssh/
 
 
