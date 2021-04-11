@@ -6,26 +6,14 @@ ARG SSH_PRIVATE_KEY
 
 RUN apt-get update
 RUN apt-get install -y git
-# RUN mkdir -p /root/.ssh/
-# RUN echo "${SSH_PRIVATE_KEY}"
-# RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
-# RUN ls -la  /root/.ssh/id_rsa
-# RUN cat /root/.ssh/id_rsa
-# RUN chmod 0400 /root/.ssh/id_rsa
-# RUN touch /root/.ssh/known_hosts
-# RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-# RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
-# RUN eval $(ssh-agent -s)
-# RUN ssh-add /root/.ssh/id_rsa
+
 RUN mkdir -p /root/.ssh/
 COPY .ssh/* /root/.ssh/
 RUN chmod 700 /root/.ssh
 RUN ls -la  /root/
 RUN ls -la  /root/.ssh/
 RUN cat /root/.ssh/id_rsa
-# RUN touch /root/.ssh/known_hosts
-# RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-# RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+
 WORKDIR build-home
 
 RUN echo "PWD" && pwd
@@ -35,7 +23,7 @@ RUN ls -la go-api-skeleton
 RUN cd go-api-skeleton && go mod download
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o /root/app-go .
 RUN ls -la
-
+RUN rm -rf /root/.ssh/
 
 
 
