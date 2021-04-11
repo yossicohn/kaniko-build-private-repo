@@ -173,6 +173,8 @@ cp .ssh-src/* /workspace/.ssh/
 
 Fixing the Kaniko Pod for the SSH keys:
 
+[Kaniko Pod](https://github.com/yossicohn/kaniko-build-private-repo/blob/main/kaniko-pod.yaml)
+
 ```
 apiVersion: v1
 kind: Pod
