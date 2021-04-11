@@ -1,0 +1,29 @@
+ARG BUILDER_HOME_DIR="/home/builder"
+
+# first stage
+FROM golang:1.16.3 as go-base
+ARG BUILDER_HOME_DIR
+
+# installing git
+RUN apt-get update
+RUN apt-get install -y git
+WORKDIR $BUILDER_HOME_DIR
+
+# cloaning the egit repos in the same shell context
+RUN git clone git@github.com:<user>/other-private-repo.git
+
+# build the go code
+RUN cd other-private-repo && go mod download
+RUN cd other-private-repo && GOOS=linux GOARCH=amd64 go build -o "${BUILDER_HOME_DIR}/app-go" .
+
+
+# final stage
+FROM alpine:latest
+ARG BUILDER_HOME_DIR
+WORKDIR /app
+ENV PORT=3000
+# Expose port 3000 to the outside world
+EXPOSE 3000
+COPY --from=go-base "${BUILDER_HOME_DIR}/app-go" .
+# Command to run the executable
+ENTRYPOINT ["/app/app-go"]
