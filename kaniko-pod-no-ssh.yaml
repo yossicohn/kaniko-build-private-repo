@@ -29,7 +29,7 @@ spec:
     image: gcr.io/kaniko-project/executor:latest
     args:
       - "--context=dir:///workspace"
-      - "--destination=<user>/kaniko-demo:1.0.0"
+      - "--destination=<user>/myimage:1.0.0"
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker/
