@@ -16,7 +16,7 @@ spec:
       eval `ssh-agent -s`
       ssh-add ~/.ssh/id_rsa
       ssh -v git@github.com
-      git clone git@github.com:yossicohn/dummy-repo-kaniko-build.git /workspace
+      git clone git@github.com:<user>/dummy-repo-kaniko-build.git /workspace
       
       # Copying the ssh keys to the workspace to be available for the Dockerfile build 
       mkdir /workspace/.ssh
@@ -32,7 +32,7 @@ spec:
     image: gcr.io/kaniko-project/executor:latest
     args:
       - "--context=dir:///workspace"
-      - "--destination=yossicohn/kaniko-demo:1.0.0"
+      - "--destination=<user>/kaniko-demo:1.0.0"
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker/
