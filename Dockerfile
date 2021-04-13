@@ -16,7 +16,7 @@ WORKDIR $BUILDER_HOME_DIR
 
 # 1. restarting the ssh agent
 # 2. adding the private key to the agent
-# 3. cloaning th egit repos in the same shell context
+# 3. cloaning the git repos in the same shell context
 RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.com:<user>/other-private-repo.git --single-branch
 RUN cd go-api-skeleton && go mod download
 RUN cd go-api-skeleton && GOOS=linux GOARCH=amd64 go build -o "${BUILDER_HOME_DIR}/app-go" .
