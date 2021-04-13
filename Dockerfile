@@ -1,5 +1,4 @@
 ARG BUILDER_HOME_DIR="/home/builder"
-ARG SSH_PRIVATE_KEY
 
 FROM golang:1.16.3 as go-base
 ARG BUILDER_HOME_DIR
