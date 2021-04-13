@@ -256,8 +256,6 @@ RUN eval $(ssh-agent -s) && ssh-add /root/.ssh/id_rsa && git clone git@github.co
 RUN cd other-private-repo && go mod download
 RUN cd other-private-repo && GOOS=linux GOARCH=amd64 go build -o "${BUILDER_HOME_DIR}/app-go" .
 
-# delete the .ssh keys
-RUN rm -rf /root/.ssh/
 
 # final stage
 FROM alpine:latest
