@@ -92,7 +92,7 @@ Host github.com
 3. Create the SSH keys secret from the files
 
 ```
-kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=.ssh/id_rsa --from-file=ssh-publickey=.ssh/id_rsa.pub --from-file=known_hosts=known_hosts.github
+kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=.ssh/id_rsa --from-file=ssh-publickey=.ssh/id_rsa.pub --from-file=known_hosts=known_hosts.github --from-file=config=~/.ssh/config
 ````
 Now the Kubernetes cluster has the needed secrets for mounting in the Pod.
 
